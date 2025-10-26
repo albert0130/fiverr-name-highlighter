@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Fiverr Name Highlighter",
+  "version": "2.2.0",
+  "description": "Highlights Fiverr sellers not listed in the shared Google Sheet.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "storage",
+    "commands"
+  ],
+  "host_permissions": [
+    "https://docs.google.com/*",
+    "https://www.fiverr.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.fiverr.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "run-highlighter": {
+      "suggested_key": {
+        "default": "Alt+O",
+        "mac": "MacCtrl+O"
+      },
+      "description": "Toggle and run the name highlighter"
+    }
+  }
+}
