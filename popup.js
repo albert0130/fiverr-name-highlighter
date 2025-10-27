@@ -1,4 +1,5 @@
 const toggleSwitch = document.getElementById("toggleSwitch");
+const toggleText = document.getElementById("toggleText");
 
 // Load saved toggle state
 chrome.storage.sync.get(['highlighterEnabled'], (result) => {
@@ -6,7 +7,7 @@ chrome.storage.sync.get(['highlighterEnabled'], (result) => {
   updateToggleState(isEnabled);
 });
 
-// Listen for storage changes (when Alt+O is pressed)
+// Listen for storage changes (when Alt+O or Alt+Z is pressed)
 chrome.storage.onChanged.addListener((changes, namespace) => {
   if (namespace === 'sync' && changes.highlighterEnabled) {
     updateToggleState(changes.highlighterEnabled.newValue);
@@ -27,7 +28,9 @@ toggleSwitch.addEventListener("click", () => {
 function updateToggleState(isEnabled) {
   if (isEnabled) {
     toggleSwitch.classList.add("active");
+    toggleText.textContent = "Alt+Z - Disable auto highlighter";
   } else {
     toggleSwitch.classList.remove("active");
+    toggleText.textContent = "Alt+Z - Enable auto highlighter";
   }
 }

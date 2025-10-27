@@ -46,24 +46,65 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
 });
 
-// === SHORTCUT (Alt+O) ===
+// === KEYBOARD SHORTCUTS ===
 chrome.commands.onCommand.addListener(async (command) => {
-  if (command === "run-highlighter") {
-    // Check current state and toggle it
+  // Navigate backward (Alt+Q)
+  if (command === "navigate-backward") {
+    handlePageNavigation(-1);
+  }
+  
+  // Navigate forward (Alt+W)
+  if (command === "navigate-forward") {
+    handlePageNavigation(1);
+  }
+  
+  // Toggle highlighter (Alt+Z)
+  if (command === "toggle-highlighter") {
     chrome.storage.sync.get(['highlighterEnabled'], (result) => {
       const isEnabled = result.highlighterEnabled !== false; // Default to true
       const newState = !isEnabled; // Toggle the state
-      
-      // Save the new state
       chrome.storage.sync.set({ highlighterEnabled: newState });
-      
-      // Run the highlighter if it's now enabled
-      if (newState) {
-        runHighlighter();
-      }
     });
   }
+  
+  // Manual highlight (Alt+X)
+  if (command === "manual-highlight") {
+    runHighlighter();
+  }
 });
+
+// === PAGE NAVIGATION FUNCTION ===
+async function handlePageNavigation(direction) {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const url = new URL(tab.url);
+  
+  // Check if URL contains page, offset, and limit parameters
+  const pageParam = url.searchParams.get('page');
+  const offsetParam = url.searchParams.get('offset');
+  const limitParam = url.searchParams.get('limit');
+  
+  if (!pageParam || !offsetParam || !limitParam) {
+    console.log("URL doesn't contain required pagination parameters");
+    return;
+  }
+  
+  // Parse and update page number
+  let currentPage = parseInt(pageParam);
+  currentPage += direction;
+  
+  // Ensure page is not negative
+  if (currentPage < 1) {
+    currentPage = 1;
+  }
+  
+  // Update URL parameters
+  url.searchParams.set('page', currentPage.toString());
+  url.searchParams.set('offset', '0');
+  url.searchParams.set('limit', limitParam); // Keep original limit value
+  
+  // Update the tab URL without opening a new tab
+  chrome.tabs.update(tab.id, { url: url.toString() });
+}
 
 // === RUN HIGHLIGHTER FUNCTION ===
 async function runHighlighter() {

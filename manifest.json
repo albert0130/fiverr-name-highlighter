@@ -39,12 +39,33 @@
     }
   ],
   "commands": {
-    "run-highlighter": {
+    "navigate-backward": {
       "suggested_key": {
-        "default": "Alt+O",
-        "mac": "MacCtrl+O"
+        "default": "Alt+Q",
+        "mac": "MacCtrl+Q"
       },
-      "description": "Toggle and run the name highlighter"
+      "description": "Navigate to previous page"
+    },
+    "navigate-forward": {
+      "suggested_key": {
+        "default": "Alt+W",
+        "mac": "MacCtrl+W"
+      },
+      "description": "Navigate to next page"
+    },
+    "toggle-highlighter": {
+      "suggested_key": {
+        "default": "Alt+Z",
+        "mac": "MacCtrl+Z"
+      },
+      "description": "Toggle highlighter on/off"
+    },
+    "manual-highlight": {
+      "suggested_key": {
+        "default": "Alt+X",
+        "mac": "MacCtrl+X"
+      },
+      "description": "Manually highlight names"
     }
   }
 }
