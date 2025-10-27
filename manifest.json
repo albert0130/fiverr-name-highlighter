@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Fiverr Name Highlighter",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Highlights Fiverr sellers not listed in the shared Google Sheet.",
   "icons": {
     "16": "icons/icon16.png",

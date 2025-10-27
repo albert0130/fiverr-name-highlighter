@@ -100,7 +100,7 @@ async function handlePageNavigation(direction) {
   // Update URL parameters
   url.searchParams.set('page', currentPage.toString());
   url.searchParams.set('offset', '0');
-  url.searchParams.set('limit', limitParam); // Keep original limit value
+  url.searchParams.set('limit', '55');
   
   // Update the tab URL without opening a new tab
   chrome.tabs.update(tab.id, { url: url.toString() });
